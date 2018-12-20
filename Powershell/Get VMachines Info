@@ -1,0 +1,20 @@
+Connect-VIServer <server>
+
+
+$Virtualizador = <Host-IP
+
+Get-VMHost $Virtualizador | 
+    Get-VM | 
+        ? {$_.PowerState -eq "PoweredOn"} |
+             Select Name, 
+                    Notes, 
+                    Guest,
+                    NumCpu, 
+                    CoresPerSocket, 
+                    MemoryGB, 
+                    @{N="IP Address";E={@($_.guest.IPAddress)}}, 
+                    @{N="Partition";E={foreach 
+                                                ($disk in (Get-VM $_).Extensiondata.Guest.Disk) 
+                                                    {  $disk.Diskpath -replace '[\\]',
+                                                       ([math]::Round($disk.Capacity /1024MB),'GB')}}} 
+                                                       
