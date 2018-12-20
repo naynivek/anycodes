@@ -1,0 +1,63 @@
+Param
+(
+    [Parameter(Mandatory=$false,ValueFromPipeline=$true)]
+    [Alias('sam')][String[]]$args
+)
+
+#Check if ActiveDirectory module is imported.
+If(-not(Get-Module -Name ActiveDirectory))
+{
+    Import-Module -Name ActiveDirectory
+}
+    
+    If($args) {
+
+    $DomainControllers = Get-ADDomainController -Server <server>
+
+
+    $Objs=@()
+        Foreach($DC in $DomainControllers)
+        {   
+        #Use regular expression do string manipulation
+        $EventInfos = Get-WinEvent -ComputerName $DC.Hostname -FilterHashtable @{Logname='Security';Id=4740} -ErrorAction SilentlyContinue
+        [Regex]$RegexAccountName = "Account Name:\s+\w+.*"
+        [Regex]$RegexDomainName = "Account Domain:\s+\w+.*"
+
+        $EventInfos|Foreach{$MsgStr1=$_.message.LastIndexOf("Account Name:")
+        $MsgStr2=$_.message.Substring($MsgStr1,$_.message.Length-$MsgStr1)
+        $MsgStr3=($MsgStr2 -Split ":")
+        $AccountName = ($MsgStr3 -split "`r`n")[1].Trim()
+        $Location = ($MsgStr3 -split "`r`n")[6].Trim()
+        $Events=New-Object -TypeName PSObject -Property @{SamAccountName = $AccountName; Location=$Location}
+        $Objs+=$Events
+        }
+
+        
+            Foreach($Account in $args)
+            {
+            $LockedOutAccount = Get-ADUser -Filter {SamAccountName -eq $Account} -Server $DC.HostName `
+            -Properties SamAccountName,AccountLockoutTime,LastBadPasswordAttempt,badPwdCount,LockedOut|`
+            Where{$_.LockedOut -eq $true} | Select-Object SamAccountName,AccountLockoutTime,LastBadPasswordAttempt,badPwdCount,LockedOut
+            $LockedOutInfo = $LockedOutAccount|Foreach{New-Object -TypeName PSObject `
+            -Property @{SamAccountName = $_.SamAccountName;
+                        LogonLocation = $($Name = $_.SamAccountName;`
+                        $Objs|Where{$_.SamAccountName -eq $Name}|Sort -Unique|`
+                        Select -ExpandProperty Location);
+                        AccountLockoutTime = $_.AccountLockoutTime
+                        LastBadPasswordAttempt = $_.LastBadPasswordAttempt;
+                        badPwdCount = $_.badPwdCount}}
+               
+            $LockedOutInfo | Select SamAccountName,@{Expression={If($_.LogonLocation -eq $null){"Not Found"}Else{$_.LogonLocation}};`
+            Label="LogonLocation"},AccountLockoutTime,LastBadPasswordAttempt,badPwdCount                                                                                            
+            }
+        }
+        }
+    Else
+        {
+        echo 'Bem vindo ao script Busca-login-block
+                Execute o script com o parâmetro do usuário(s) que deseja consultar.
+                Ex: .\Busca-login-block.psq joao.teste
+                Ex2:.\Busca-login-block.psq joao.teste,maria.teste
+        
+            '                                                                                          
+        }
