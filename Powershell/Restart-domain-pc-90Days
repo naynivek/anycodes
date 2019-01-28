@@ -1,0 +1,8 @@
+
+$d = [DateTime]::Today.addDays(-90) ## Default is 90 days
+#You can edit your search based OU ou Computers Group
+##Get-ADComputer -Filter * -SearchBase "OU=IT, DC=contoso, DC=com" ## Example OU
+##Get-ADComputer -Filter * -SearchBase "CN=Workstations, DC=contoso, DC=com" ## Example Group
+
+$i = Get-ADComputer -filter 'passwordlastset -ge $d' | select dnshostname 
+$i | ForEach-Object { if (Test-Connection -ComputerName $_.dnshostname -Quiet -Count 1 ) { Restart-Computer -ComputerName $_.dnshostname }}
