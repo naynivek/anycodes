@@ -1,0 +1,4 @@
+
+$d = [DateTime]::Today.addDays(-90)
+$i = Get-ADComputer -filter 'passwordlastset -ge $d' | select dnshostname 
+$i | ForEach-Object { if (Test-Connection -ComputerName $_.dnshostname -Quiet -Count 1 ) { Restart-Computer -ComputerName $_.dnshostname }}
