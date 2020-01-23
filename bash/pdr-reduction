@@ -9,8 +9,7 @@ if test -f /bin/gs
 
                 if [ -z $1 ]
                         then 
-                        echo 'Help !
-                                Usage: ./pdf-reduction.sh name-of-file.pdf (the file cannot have blank spaces in the name)'
+                        echo 'Usage: ./pdf-reduction.sh name-of-file.pdf (the file cannot have blank spaces in the name)'
                 fi
                 if [ -z $2 ]
                         then
