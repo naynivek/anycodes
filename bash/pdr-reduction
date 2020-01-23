@@ -1,3 +1,6 @@
+## Need to be installed ghostscript
+##
+
 
 if [ -\ $1 ]
 then echo '
