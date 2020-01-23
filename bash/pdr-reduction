@@ -1,0 +1,17 @@
+
+if [ -\ $1 ]
+then echo '
+Help !
+
+Usage: ./pdf-reduction name-of-file.pdf'
+
+fi
+
+if [ -z $2 ]
+then
+        gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/ebook -dNOPAUSE -dQUIET -dBATCH -sOutputFile=resultado.pdf $1
+
+else
+
+        gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/$2 -dNOPAUSE -dQUIET -dBATCH -sOutputFile=resultado.pdf $1
+fi
