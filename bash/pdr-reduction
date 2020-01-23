@@ -2,19 +2,22 @@
 ##
 
 
-if [ -\ $1 ]
-then echo '
-Help !
+#!/bin/bash
 
-Usage: ./pdf-reduction name-of-file.pdf'
+if test -f /bin/gs
+        then
 
-fi
-
-if [ -z $2 ]
-then
-        gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/ebook -dNOPAUSE -dQUIET -dBATCH -sOutputFile=resultado.pdf $1
-
-else
-
-        gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/$2 -dNOPAUSE -dQUIET -dBATCH -sOutputFile=resultado.pdf $1
+                if [ -z $1 ]
+                        then 
+                        echo 'Help !
+                                Usage: ./pdf-reduction.sh name-of-file.pdf (the file cannot have blank spaces in the name)'
+                fi
+                if [ -z $2 ]
+                        then
+                                gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/ebook -dNOPAUSE -dQUIET -dBATCH -sOutputFile=resultado.pdf $1
+                        else
+                                gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/$2 -dNOPAUSE -dQUIET -dBATCH -sOutputFile=resultado.pdf $1
+                fi
+        else
+                echo 'Please, install ghostscript ( apt-get install ghostscript )'
 fi
