@@ -1,6 +1,13 @@
 ## Need to be installed ghostscript
 ##
 
+# PT_BR
+# Precisar ter instalado o programa ghostscript
+# Esse script diminui o numero de pixels de um PDF afim de deixá-lo menor.
+# EN_US
+# Need to be installed ghostscript
+# The script shorten pixel numbers of a PDF in order to get him smaller.
+
 
 #!/bin/bash
 
