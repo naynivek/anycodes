@@ -1,0 +1,17 @@
+# Create XML Credential File
+  Get-Credential "<user@example.org" |Export-Clixml C:\user@example.org.xml
+# Create Office 365 Session
+  $ex = New-PSSession -ConfigurationName Microsoft.Exchange -ConnectionUri https://outlook.office365.com/powershell \ 
+  -Credential (Import-Clixml C:\user@example.org.xml) -Authentication basic -AllowRedirection
+#Enter session
+  Import-PSSession $ex
+# Create new mailbox
+  New-Mailbox -Name "Info" -PrimarySmtpAddress "info@example.org" -Alias "info"
+# Create new shared mailbox
+  New-Mailbox -Shared -Name "Info-shared" -PrimarySmtpAddress "info-shared@example.org" -Alias "info-shared"
+# Add user permission FullAccess to a mailbox
+	Add-MailboxPermission -Identity info-shared@example.org -User user -AccessRights FullAccess
+# Add user permission SendAs to a mailbox
+	Add-RecipientPermission -Identity info-shared@example.org -Trustee user -AccessRights SendAs 
+# Get max send and receive size per mail on mailbox
+	Get-Mailbox -Identity info-shared@example.org | select MaxSendSize,MaxReceiveSize
