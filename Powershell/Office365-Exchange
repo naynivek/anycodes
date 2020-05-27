@@ -10,8 +10,12 @@
 # Create new shared mailbox
   New-Mailbox -Shared -Name "Info-shared" -PrimarySmtpAddress "info-shared@example.org" -Alias "info-shared"
 # Add user permission FullAccess to a mailbox
-	Add-MailboxPermission -Identity info-shared@example.org -User user -AccessRights FullAccess
+  Add-MailboxPermission -Identity info-shared@example.org -User user -AccessRights FullAccess
 # Add user permission SendAs to a mailbox
-	Add-RecipientPermission -Identity info-shared@example.org -Trustee user -AccessRights SendAs 
+  Add-RecipientPermission -Identity info-shared@example.org -Trustee user -AccessRights SendAs 
 # Get max send and receive size per mail on mailbox
-	Get-Mailbox -Identity info-shared@example.org | select MaxSendSize,MaxReceiveSize
+  Get-Mailbox -Identity info-shared@example.org | select MaxSendSize,MaxReceiveSize
+# Set autoreply message
+  Set-MailboxAutoReplyConfiguration -Identity info-share@example.org -ExternalMessage "this address will be excluded ! \
+  Please send to info-share@example.com" -InternalMessage "this address will be excluded ! Please send to info-share@example.com" \
+  -AutoReplyState enabled
