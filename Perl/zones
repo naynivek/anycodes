@@ -4,6 +4,8 @@
 
 $cachedir = "/var/cache/bind";
 
+$first = 1;
+
 if ( -d $cachedir) {
 
 print "[\n";
@@ -11,8 +13,12 @@ print "[\n";
 for (`ls /var/cache/bind | grep zone`) {
 ($zone) = m/(\S+)/;
 
-print "\t\t\"{#Zone}\":\"$zone\",\n";
+print "\t,\n" if not $first;
+        $first = 0;
 
+print "\t{ ";
+print "\t\t\"{#Zone}\":\"$zone\"\n";
+print "\t} ";
 }
 
 print "]\n";
