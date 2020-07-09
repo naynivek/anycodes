@@ -1,0 +1,25 @@
+#!/usr/bin/perl
+#
+#
+
+$cachedir = "/var/cache/bind";
+
+if ( -d $cachedir) {
+
+print "[\n";
+
+for (`ls /var/cache/bind | grep zone`) {
+($zone) = m/(\S+)/;
+
+print "\t\t\"{#Zone}\":\"$zone\",\n";
+
+}
+
+print "]\n";
+
+}
+
+else {
+exit;
+}
+
