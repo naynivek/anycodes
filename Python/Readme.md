@@ -13,6 +13,7 @@ Seção de scripts em python para diversos objetivos de rede:
 
 > Script em python que se conecta no servidores Linux e altera
 > o arquivo de configuração Zabbix da forma que desejar.
+>
 > Criado por [Kevin Yan](https://github.com/naynivek/anycodes/tree/master/Python)
 
 ### Modo de execução
@@ -42,6 +43,7 @@ Exemplo:
 
 > Script em python que se conecta em servidores via protocolo http/https
 > e retorna o status do servidor.
+>
 > Criado por [Kevin Yan](https://github.com/naynivek/anycodes/tree/master/Python)
 
 ### Modo de execução
