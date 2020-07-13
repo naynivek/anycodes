@@ -1,0 +1,51 @@
+import requests, sys, urllib3
+
+advisor = (" Bem vindo ao script de get HTTPS :) \n"
+           "          O uso do script e bastante simples, execute-o com os parametros: \n"
+           "          # python get-https.py <url> <porta>\n"
+           "          obs: default porta=80\n"
+           "          Exemplos:\n"
+           "          get-https.py www.ubec.edu.br 443\n"
+           "          <Response [200]"
+           "")
+
+def get(server, port):
+    if port == '80':
+        protocol = 'http://'
+    else:
+        protocol = 'https://'
+    urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+    url = protocol + server + ':' + port
+    try:
+        r = requests.get(url, verify=False, timeout=0.500)
+        return r
+    except requests.exceptions.Timeout:
+        print 'Servidor demorou muito para responder'
+        exit()
+    except requests.exceptions.RequestException:
+        print 'Houve problemas para se conectar ao sevidor, verifique se o servidor esta up e se ele responde pela porta configurada'
+        exit()
+
+
+def help():
+   print advisor
+
+def query(server,port):
+    response = get(server, port)
+    if response.status_code == 200:
+        print str(response.url) + ' --> ' + str(response.history) + ' ' + 'Status code: ' + str(response.status_code) + ' --> Access Ok'
+    else:
+        print str(response.url) + ' --> ' + str(response.history) + ' ' + 'Status code: ' + str(response.status_code) + ' --> Access not Ok'
+try:
+    par_1 = sys.argv[1]
+except IndexError:
+    help()
+    exit()
+
+try:
+    par_2 = sys.argv[2]
+    query(par_1, par_2)
+except IndexError:
+    par_2 = str(80)
+    query(par_1, par_2)
+
