@@ -37,6 +37,30 @@ Exemplo:
 ./ssh_zbx_edit server01
 ```
 
+# GET_URL_STATUS
+
+> Script em python que se conecta no servidores via protocolo http/https
+> e retorna o status do servidor.
+
+### Modo de execução
+
+-Necessário ter instalado o python3.
+
+-O script necessita de um argumento que é o IP ou nome da maquina
+-O script suporta um segundo argumento que é a porta do site (default=80). Porém ele não é requisito obrigatório.
+
+```sh
+./get_url_status <url>
+```
+
+Exemplo:
+
+```sh
+./get_url_status pingtecnologia.com.br 443
+```
+```sh
+./et_url_status uol.com.br 80
+```
 
 **Free Scripts, Hell Yeah!**
 
