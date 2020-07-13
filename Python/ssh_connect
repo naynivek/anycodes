@@ -1,0 +1,51 @@
+#!/usr/bin/python3
+# Import library
+import sys
+import os
+import time
+from pexpect import pxssh
+
+# Variables Declaration
+
+ip = sys.argv[1]
+s = pxssh.pxssh()
+
+# Function ssh connection
+def ssh(ip, user='root', password='<*******INSIRA A SENHA DE ROOT******>'):
+    try:
+        s.login(ip, user, password)
+        print('Conectado com sucesso via SSH...')
+    except:
+        print('Falha na conexao SSH\n')
+        print(user,ip)
+        sys.exit()
+
+# Functions that validates version
+def command():
+        try:
+                s.sendline( "echo -e  'PidFile=/var/run/zabbix/zabbix_agentd.pid \n\
+LogFile=/var/log/zabbix-agent/zabbix_agentd.log \n\
+LogFileSize=0 \n\
+\n\
+\n\
+Server=172.27.2.123 \n\
+ServerActive=172.27.2.123 \n\
+Hostname=computer \n\
+\n\
+Include=/etc/zabbix/zabbix_agentd.conf.d/*.conf\n\
+\n\
+UserParameter=bash[*], $1 \n\
+\n' > basic-config.txt")
+                s.prompt()
+                print('Configurando o agente zabbix')
+                s.sendline('cat basic-config.txt | sed "s/computer/`hostname`/g" > arq1.txt ; mv arq1.txt /etc/zabbix/zabbix_agentd.conf; rm basic-config.txt ; rm arq1.txt')
+                s.prompt()
+                s.sendline('systemctl enable zabbix-agent ; systemctl restart zabbix-agent')
+                s.prompt()
+                print('Reiniciando o agente zabbix')
+                return "Mudança realizada com sucesso"
+        except:
+                return "Problemas para executar o comando"
+
+ssh(ip)
+print(command())
