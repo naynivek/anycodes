@@ -17,6 +17,7 @@ Seção de scripts em python para diversos objetivos de rede
 ### Modo de execução
 
 Necessário ter instalado o python3
+
 Necessário importar o módulo pexpect.
 ```sh
 pip3 install pexpect
