@@ -31,10 +31,10 @@ O script necessita de um argumento que é o IP ou nome da maquina
 Exemplo
 
 ```sh
-./sshssh_zbx_edit 192.168.0.1
+./ssh_zbx_edit 192.168.0.1
 ```
 ```sh
-./sshssh_zbx_edit server01
+./ssh_zbx_edit server01
 ```
 
 
