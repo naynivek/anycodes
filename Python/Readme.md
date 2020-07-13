@@ -39,7 +39,7 @@ Exemplo:
 
 # GET_URL_STATUS
 
-> Script em python que se conecta no servidores via protocolo http/https
+> Script em python que se conecta em servidores via protocolo http/https
 > e retorna o status do servidor.
 
 ### Modo de execução
@@ -61,6 +61,9 @@ Exemplo:
 ```sh
 ./et_url_status uol.com.br 80
 ```
+
+
+
 
 **Free Scripts, Hell Yeah!**
 
