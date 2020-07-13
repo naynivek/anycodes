@@ -1,51 +1,51 @@
 #!/usr/bin/python3
-# Import library
-import sys
-import os
-import time
-from pexpect import pxssh
+import requests, sys, urllib3
 
-# Variables Declaration
+advisor = (" Bem vindo ao script de get HTTPS :) \n"
+           "          O uso do script e bastante simples, execute-o com os parametros: \n"
+           "          # python get-https.py <url> <porta>\n"
+           "          obs: default porta=80\n"
+           "          Exemplos:\n"
+           "          get-https.py www.ubec.edu.br 443\n"
+           "          <Response [200]"
+           "")
 
-ip = sys.argv[1]
-s = pxssh.pxssh()
-
-# Function ssh connection
-def ssh(ip, user='root', password='Ftanauco.2019*#'):
+def get(server, port):
+    if port == '80':
+        protocol = 'http://'
+    else:
+        protocol = 'https://'
+    urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+    url = protocol + server + ':' + port
     try:
-        s.login(ip, user, password)
-        print('Conectado com sucesso via SSH...')
-    except:
-        print('Falha na conexao SSH\n')
-        print(user,ip)
-        sys.exit()
+        r = requests.get(url, verify=False, timeout=0.500)
+        return r
+    except requests.exceptions.Timeout:
+        print('Servidor demorou muito para responder')
+        exit()
+    except requests.exceptions.RequestException:
+        print('Houve problemas para se conectar ao sevidor, verifique se o servidor esta up e se ele responde pela porta configurada')
+        exit()
 
-# Functions that validates version
-def command():
-        try:
-                s.sendline( "echo -e  'PidFile=/var/run/zabbix/zabbix_agentd.pid \n\
-LogFile=/var/log/zabbix-agent/zabbix_agentd.log \n\
-LogFileSize=0 \n\
-\n\
-\n\
-Server=172.27.2.123 \n\
-ServerActive=172.27.2.123 \n\
-Hostname=computer \n\
-\n\
-Include=/etc/zabbix/zabbix_agentd.conf.d/*.conf\n\
-\n\
-UserParameter=bash[*], $1 \n\
-\n' > basic-config.txt")
-                s.prompt()
-                print("Configurando o agente zabbix no servidor "+ip)
-                s.sendline('cat basic-config.txt | sed "s/computer/`hostname`/g" > arq1.txt ; mv arq1.txt /etc/zabbix/zabbix_agentd.conf; rm basic-config.txt ; rm arq1.txt')
-                s.prompt()
-                s.sendline('systemctl enable zabbix-agent ; systemctl restart zabbix-agent')
-                s.prompt()
-                print("Reiniciando o agente zabbix do servidor "+ip)
-                return "Mudança realizada com sucesso"
-        except:
-                return "Problemas para executar o comando"
 
-ssh(ip)
-print(command())
+def help():
+   print(advisor)
+
+def query(server,port):
+    response = get(server, port)
+    if response.status_code == 200:
+        print(str(response.url) + ' --> ' + str(response.history) + ' ' + 'Status code: ' + str(response.status_code) + ' --> Access Ok')
+    else:
+        print(str(response.url) + ' --> ' + str(response.history) + ' ' + 'Status code: ' + str(response.status_code) + ' --> Access not Ok')
+try:
+    par_1 = sys.argv[1]
+except IndexError:
+    help()
+    exit()
+
+try:
+    par_2 = sys.argv[2]
+    query(par_1, par_2)
+except IndexError:
+    par_2 = str(80)
+    query(par_1, par_2)
