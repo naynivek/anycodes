@@ -11,7 +11,7 @@ ip = sys.argv[1]
 s = pxssh.pxssh()
 
 # Function ssh connection
-def ssh(ip, user='root', password='<*******INSIRA A SENHA DE ROOT******>'):
+def ssh(ip, user='root', password='Ftanauco.2019*#'):
     try:
         s.login(ip, user, password)
         print('Conectado com sucesso via SSH...')
@@ -37,12 +37,12 @@ Include=/etc/zabbix/zabbix_agentd.conf.d/*.conf\n\
 UserParameter=bash[*], $1 \n\
 \n' > basic-config.txt")
                 s.prompt()
-                print('Configurando o agente zabbix')
+                print("Configurando o agente zabbix no servidor "+ip)
                 s.sendline('cat basic-config.txt | sed "s/computer/`hostname`/g" > arq1.txt ; mv arq1.txt /etc/zabbix/zabbix_agentd.conf; rm basic-config.txt ; rm arq1.txt')
                 s.prompt()
                 s.sendline('systemctl enable zabbix-agent ; systemctl restart zabbix-agent')
                 s.prompt()
-                print('Reiniciando o agente zabbix')
+                print("Reiniciando o agente zabbix do servidor "+ip)
                 return "Mudança realizada com sucesso"
         except:
                 return "Problemas para executar o comando"
