@@ -20,11 +20,12 @@ Seção de scripts em python para diversos objetivos de rede:
 
 -Necessário ter instalado o python3.
 -Necessário importar o módulo pexpect.
+-Script portado para Debiam/Ubuntu apenas
 ```sh
 pip3 install pexpect
 ```
 
-O script necessita de um argumento que é o IP ou nome da maquina.
+O script necessita de um argumento que é o IP ou o nome da maquina.
 
 ```sh
 ./ssh_zbx_edit <host>
@@ -50,7 +51,7 @@ Exemplo:
 
 -Necessário ter instalado o python3.
 
--O script necessita de um argumento que é o IP ou nome da maquina
+-O script necessita de um argumento que é o IP ou o nome da maquina
 -O script suporta um segundo argumento que é a porta do site (default=80). Porém ele não é requisito obrigatório.
 
 ```sh
@@ -66,7 +67,36 @@ Exemplo:
 ./et_url_status uol.com.br 80
 ```
 
+# SSH_ZBX_INSTALLER
 
+> Script em python que se conecta no servidores Linux,
+> instala o agente zabbix e configura da forma que desejar.
+>
+> Criado por [Kevin Yan](https://www.pingtecnologia.com.br/quem-somos)
+
+### Modo de execução
+
+-Necessário ter instalado o python3.
+-Necessário importar o módulo pexpect.
+-Script portado para Debiam/Ubuntu apenas
+```sh
+pip3 install pexpect
+```
+
+O script necessita de um argumento que é o IP ou o nome da maquina.
+
+```sh
+./ssh_zbx_edit <host>
+```
+
+Exemplo:
+
+```sh
+./ssh_zbx_edit 192.168.0.1
+```
+```sh
+./ssh_zbx_edit server01
+```
 
 
 **Free Scripts, Hell Yeah!**
