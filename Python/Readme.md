@@ -18,9 +18,9 @@ Seção de scripts em python para diversos objetivos de rede:
 
 ### Modo de execução
 
--Necessário ter instalado o python3.
--Necessário importar o módulo pexpect.
--Script portado para Debiam/Ubuntu apenas
+- Necessário ter instalado o python3.
+- Necessário importar o módulo pexpect.
+- Script portado para Debiam/Ubuntu apenas
 ```sh
 pip3 install pexpect
 ```
@@ -49,10 +49,9 @@ Exemplo:
 
 ### Modo de execução
 
--Necessário ter instalado o python3.
-
--O script necessita de um argumento que é o IP ou o nome da maquina
--O script suporta um segundo argumento que é a porta do site (default=80). Porém ele não é requisito obrigatório.
+- Necessário ter instalado o python3.
+- O script necessita de um argumento que é o IP ou o nome da maquina
+- O script suporta um segundo argumento que é a porta do site (default=80). Porém ele não é requisito obrigatório.
 
 ```sh
 ./get_url_status <url>
@@ -76,9 +75,9 @@ Exemplo:
 
 ### Modo de execução
 
--Necessário ter instalado o python3.
--Necessário importar o módulo pexpect.
--Script portado para Debiam/Ubuntu apenas
+- Necessário ter instalado o python3.
+- Necessário importar o módulo pexpect.
+- Script portado para Debiam/Ubuntu apenas
 ```sh
 pip3 install pexpect
 ```
