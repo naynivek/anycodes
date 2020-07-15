@@ -11,7 +11,7 @@ ip = sys.argv[1]
 s = pxssh.pxssh()
 
 # Function ssh connection
-def ssh(ip, user='root', password='Ftanauco.2019*#'):
+def ssh(ip, user='root', password='########INSIRA A SENHA DE ROOT########'):
     try:
         s.login(ip, user, password)
         print('Conectado com sucesso via SSH...')
@@ -32,8 +32,8 @@ LogFile=/var/log/zabbix-agent/zabbix_agentd.log \n\
 LogFileSize=0 \n\
 \n\
 \n\
-Server=172.27.2.123 \n\
-ServerActive=172.27.2.123 \n\
+Server=########IP SERVIDOR ZABBIX######## \n\
+ServerActive=########IP SERVIDOR ZABBIX######## \n\
 Hostname=computer \n\
 \n\
 Include=/etc/zabbix/zabbix_agentd.conf.d/*.conf\n\
