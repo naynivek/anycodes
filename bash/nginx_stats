@@ -1,0 +1,35 @@
+#!/bin/bash
+#
+#
+
+
+while getopts h,a:c:b:r:e:d:f:all: flag
+do
+        case "${flag}" in
+                h) echo "
+#######################################################
+nginx_stats -c <HOST>
+
+-h - Show this help
+-l - Show active connections
+-b - Show accepted connections
+-c - Show handled connections
+-r - Show requests by connections
+-d - Show reading connection header of request
+-e - Show writing answer client connections
+-f - Show Waiting connections or inactive connections
+-a - Show all data
+#######################################################
+" ;;
+				l) curl --silent $2/stub_status | sed -n '1p' | sed 's/[^0-9]*//g' ;;
+				b) curl --silent $2/stub_status | sed -n '3p' | cut -c 5-6 ;;
+				c) curl --silent $2/stub_status | sed -n '3p' | cut -c 8-9 ;;
+				r) a=`curl --silent $2/stub_status | sed -n '3p' | cut -c 5-6`;b=`curl --silent $2/stub_status | sed -n '3p' | cut -c 8-9` ; echo $(($b/$a)) ;;
+				d) curl --silent $2/stub_status | sed -n '4p' | sed 's/[^0-9]*//g' | cut -c 1 ;;
+				e) curl --silent $2/stub_status | sed -n '4p' | sed 's/[^0-9]*//g' | cut -c 2 ;;
+				f) curl --silent $2/stub_status | sed -n '4p' | sed 's/[^0-9]*//g' | cut -c 3 ;;
+				a) curl --silent $2/stub_status
+
+        esac
+done
+
