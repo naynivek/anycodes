@@ -1,0 +1,2 @@
+UserParameter=ps[*],powershell -command "($1)"
+UserParameter=ps.users, powershell -command "(Get-LocalUser | where { $_.Enabled -eq 'True' } | select -ExpandProperty Name )" 
